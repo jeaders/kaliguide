@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
+import MobileNav from "@/components/MobileNav";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -124,7 +125,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A0A0F] via-[#16161D] to-[#0A0A0F] cyber-grid">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,107,53,0.1)_0%,transparent_50%)]" />
+      <div className="hidden md:block absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,107,53,0.1)_0%,transparent_50%)]" />
       
       <header className="sticky top-0 z-50 bg-[#0A0A0F]/80 backdrop-blur-md border-b border-orange-500/20">
         <div className="container py-4 flex items-center justify-between">
@@ -139,7 +140,8 @@ export default function Home() {
               <p className="text-xs text-gray-500">v1.0.0-beta</p>
             </div>
           </div>
-          <nav className="hidden md:flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <nav className="flex md:flex items-center gap-2 overflow-x-auto touch-pan-x">
             {[
               { href: "/", label: "HOME", active: true },
               { href: "/guides", label: "GUIDES" },
@@ -147,7 +149,7 @@ export default function Home() {
               { href: "/community", label: "COMMUNITY" }
             ].map((item) => (
               <Link key={item.href} href={item.href}>
-                <span className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                <span className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
                   item.active
                     ? "bg-orange-500/20 text-orange-300 border border-orange-500/40"
                     : "text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 border border-transparent"
@@ -156,11 +158,16 @@ export default function Home() {
                 </span>
               </Link>
             ))}
-          </nav>
+            </nav>
+            {/* Mobile toggle */}
+            <div className="ml-2">
+              <MobileNav />
+            </div>
+          </div>
         </div>
       </header>
 
-      <section className="relative py-20 overflow-hidden">
+      <section className="relative py-12 md:py-20 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-orange-500 rounded-full filter blur-3xl" />
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl" />
@@ -173,7 +180,7 @@ export default function Home() {
                 <Activity className="w-4 h-4 text-orange-400" />
                 <span className="text-orange-300 text-xs font-mono">PENETRATION TESTING FRAMEWORK</span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-white font-mono">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white font-mono">
                 CYBER SECURITY COMMAND CENTER
                 <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
                   FOR KALI LINUX
@@ -201,12 +208,12 @@ export default function Home() {
       <section className="container py-12">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-500" />
+            <Search className="absolute left-4 top-3 w-5 h-5 text-gray-500" />
             <Input
               placeholder="Search attacks, tools, techniques..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 py-6 bg-gray-900/50 border-orange-500/30 text-white placeholder-gray-500 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-500/50 font-mono"
+              className="pl-12 py-3 bg-gray-900/50 border-orange-500/30 text-white placeholder-gray-500 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-500/50 font-mono"
             />
           </div>
           <div className="flex gap-2">

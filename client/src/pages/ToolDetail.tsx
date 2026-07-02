@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { SecurityWarning } from "@/components/SecurityWarning";
 import { ChevronLeft, Copy, Check, Code2, Terminal, ExternalLink, Zap, Shield, Lock, Wifi, Globe, FileText, Wrench } from "lucide-react";
 import { toast } from "sonner";
+import MobileNav from "@/components/MobileNav";
 
 interface ToolUse {
   id: string;
@@ -200,18 +201,23 @@ export default function ToolDetail() {
               <p className="text-xs text-gray-500 font-mono">{tool.category}</p>
             </div>
           </div>
-          <nav className="hidden md:flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <nav className="flex md:flex items-center gap-2 overflow-x-auto touch-pan-x">
             <Link href="/">
-              <span className="px-4 py-2 rounded-lg text-sm font-mono text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 transition-all">
+              <span className="px-4 py-3 rounded-lg text-sm font-mono text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 transition-all">
                 /home
               </span>
             </Link>
             <Link href="/tools">
-              <span className="px-4 py-2 rounded-lg text-sm font-mono text-orange-400 bg-orange-500/10 border border-orange-500/30">
+              <span className="px-4 py-3 rounded-lg text-sm font-mono text-orange-400 bg-orange-500/10 border border-orange-500/30">
                 /tools
               </span>
             </Link>
-          </nav>
+            </nav>
+            <div className="ml-2">
+              <MobileNav />
+            </div>
+          </div>
         </div>
       </header>
 

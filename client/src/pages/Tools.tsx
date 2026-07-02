@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MobileNav from "@/components/MobileNav";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -182,23 +183,28 @@ export default function Tools() {
               <p className="text-xs text-gray-500">Tool Arsenal</p>
             </div>
           </div>
-          <nav className="hidden md:flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <nav className="flex md:flex items-center gap-2 overflow-x-auto touch-pan-x">
             <Link href="/">
-              <span className="px-4 py-2 rounded-lg text-sm font-mono text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 transition-all">
+              <span className="px-4 py-3 rounded-lg text-sm font-mono text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 transition-all">
                 /home
               </span>
             </Link>
             <Link href="/guides">
-              <span className="px-4 py-2 rounded-lg text-sm font-mono text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 transition-all">
+              <span className="px-4 py-3 rounded-lg text-sm font-mono text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 transition-all">
                 /guides
               </span>
             </Link>
             <Link href="/community">
-              <span className="px-4 py-2 rounded-lg text-sm font-mono text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 transition-all">
+              <span className="px-4 py-3 rounded-lg text-sm font-mono text-gray-400 hover:text-orange-300 hover:bg-orange-500/10 transition-all">
                 /community
               </span>
             </Link>
-          </nav>
+            </nav>
+            <div className="ml-2">
+              <MobileNav />
+            </div>
+          </div>
         </div>
       </header>
 
