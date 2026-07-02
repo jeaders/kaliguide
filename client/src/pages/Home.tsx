@@ -387,7 +387,7 @@ export default function Home() {
               <ul className="space-y-2 text-gray-400 text-sm">
                 {categories.slice(0, 4).map((cat) => (
                   <li key={cat.id}>
-                    <a href="#" className="hover:text-orange-400 transition-colors font-mono text-xs">
+                    <a href={`/attack-vectors/${cat.id}`} className="hover:text-orange-400 transition-colors font-mono text-xs">
                       /{cat.name.toLowerCase()}
                     </a>
                   </li>
@@ -397,24 +397,24 @@ export default function Home() {
             <div>
               <h4 className="text-white font-bold mb-4 font-mono">RESOURCES</h4>
               <ul className="space-y-2 text-gray-400 text-sm font-mono text-xs">
-                <li><a href="#" className="hover:text-orange-400 transition-colors">DOCUMENTATION</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">COMMAND CHEAT SHEET</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">LAB SETUP GUIDE</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">DISCLAIMER</a></li>
+                <li><a href="/resources/documentation" className="hover:text-orange-400 transition-colors">DOCUMENTATION</a></li>
+                <li><a href="/resources/command-cheat-sheet" className="hover:text-orange-400 transition-colors">COMMAND CHEAT SHEET</a></li>
+                <li><a href="/resources/lab-setup-guide" className="hover:text-orange-400 transition-colors">LAB SETUP GUIDE</a></li>
+                <li><a href="/resources/disclaimer" className="hover:text-orange-400 transition-colors">DISCLAIMER</a></li>
               </ul>
             </div>
             <div>
               <h4 className="text-white font-bold mb-4 font-mono">LEGAL</h4>
               <ul className="space-y-2 text-gray-400 text-sm font-mono text-xs">
-                <li><a href="#" className="hover:text-orange-400 transition-colors">TERMS OF USE</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">PRIVACY POLICY</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">ETHICAL GUIDELINES</a></li>
+                <li><a href="/legal/terms-of-use" className="hover:text-orange-400 transition-colors">TERMS OF USE</a></li>
+                <li><a href="/legal/privacy-policy" className="hover:text-orange-400 transition-colors">PRIVACY POLICY</a></li>
+                <li><a href="/legal/ethical-guidelines" className="hover:text-orange-400 transition-colors">ETHICAL GUIDELINES</a></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-orange-500/20 pt-8 text-center text-gray-500 text-sm font-mono">
-            <p>© 2026 KALI-GUIDE-HUB. EDUCATIONAL USE ONLY. UNAUTHORIZED ACCESS IS ILLEGAL.</p>
+            <p>© 2026 KALI-GUIDE-HUB. EDUCATIONAL USE ONLY. UNAUTHORIZED ACCESS IS ILLEGAL. Developed by <a href="https://alexmirici.netlify.app" target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:text-orange-300">Alex Mirici</a>, Web Developer.</p>
           </div>
         </div>
       </footer>

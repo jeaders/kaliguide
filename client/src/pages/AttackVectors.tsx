@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MobileNav from "@/components/MobileNav";
-import { Link } from "wouter";
+import { Link, useParams } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -61,10 +61,20 @@ const difficultyLabels: Record<string, string> = {
 };
 
 export default function AttackVectors() {
+  const { category } = useParams<Record<string, string>>();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [difficultyFilter, setDifficultyFilter] = useState<"all" | "beginner" | "intermediate" | "advanced">("all");
   const { data, loading, error } = useAttacksData();
+
+  useEffect(() => {
+    if (category && data?.categories) {
+      const exists = data.categories.some((cat: Category) => cat.id === category);
+      if (exists) {
+        setSelectedCategory(category);
+      }
+    }
+  }, [category, data]);
 
   if (loading) {
     return (

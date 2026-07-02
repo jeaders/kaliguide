@@ -11,6 +11,8 @@ import Tools from "./pages/Tools";
 import Community from "./pages/Community";
 import ToolDetail from "./pages/ToolDetail";
 import AttackVectors from "./pages/AttackVectors";
+import ResourcePage from "./pages/ResourcePage";
+import LegalPage from "./pages/LegalPage";
 
 
 function Router() {
@@ -18,10 +20,13 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/attack-vectors" component={AttackVectors} />
+      <Route path="/attack-vectors/:category" component={AttackVectors} />
       <Route path="/guides" component={Guides} />
       <Route path="/tools" component={Tools} />
       <Route path="/tool/:toolId" component={ToolDetail} />
       <Route path="/community" component={Community} />
+      <Route path="/resources/:resource" component={ResourcePage} />
+      <Route path="/legal/:legal" component={LegalPage} />
       <Route path="/attack/:category/:attack" component={AttackDetail} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
