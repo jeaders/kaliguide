@@ -125,7 +125,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A0A0F] via-[#16161D] to-[#0A0A0F] cyber-grid">
-      <div className="hidden md:block absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,107,53,0.1)_0%,transparent_50%)]" />
+      <div className="hidden md:block absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(255,107,53,0.1)_0%,transparent_50%)]" />
       
       <header className="sticky top-0 z-50 bg-[#0A0A0F]/80 backdrop-blur-md border-b border-orange-500/20">
         <div className="container py-4 flex items-center justify-between">
