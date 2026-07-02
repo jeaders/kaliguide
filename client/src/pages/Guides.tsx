@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SecurityWarning } from "@/components/SecurityWarning";
-import { ChevronLeft, Check, Copy, Loader2, Lightbulb, Code2, BookOpen, Terminal, Clock, Shield, Zap, Wifi, Lock, Globe, Target, Users, FileText } from "lucide-react";
+import { ChevronLeft, Check, Copy, Loader2, Lightbulb, Code2, BookOpen, Terminal, Clock, Shield, Zap, Wifi, Lock, Globe, Radar, Target, Users, FileText } from "lucide-react";
 import { toast } from "sonner";
 import {
   Accordion,
